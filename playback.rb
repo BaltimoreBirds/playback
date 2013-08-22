@@ -27,6 +27,10 @@ def read_file(file)
   File.open(file, 'r') {|f| puts f.read}
 end
 
+def validate_file_name(file)
+  !file.include?(".txt")
+end
+
 puts "What do you want to say?"
 response = gets.chomp
 
@@ -42,8 +46,13 @@ def playback(string)
   elsif string.downcase == "i have something prepared"
     puts "Ok, where can I find what you want to say?"
     file = get_file_path
-    puts "Loading #{file}..."
-    read_file(file)
+    while validate_file_name(file)
+      puts "I couldn't find that file."
+      puts "Where can I find what you want to say?"
+      file = get_file_path
+    end
+      puts "Loading #{file}..."
+      read_file(file)
   else
     puts "You said: #{string}"
   end

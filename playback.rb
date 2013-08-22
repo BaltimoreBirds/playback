@@ -19,6 +19,14 @@ def lots_to_say(array)
   end
 end
 
+def get_file_path
+gets.chomp
+end
+
+def read_file(file)
+  File.open(file, 'r') {|f| puts f.read}
+end
+
 puts "What do you want to say?"
 response = gets.chomp
 
@@ -28,13 +36,14 @@ def playback(string)
   elsif string.downcase == "i have a lot to say"
     input_array = []
     puts "Ok, let's hear it!"
-    # while string.downcase != "done"
-    #   string = gets.chomp
-    #   input_array << string
-    # end
     lots_to_say(input_array)
     input_array.pop
     many_responses(input_array)
+  elsif string.downcase == "i have something prepared"
+    puts "Ok, where can I find what you want to say?"
+    file = get_file_path
+    puts "Loading #{file}..."
+    read_file(file)
   else
     puts "You said: #{string}"
   end

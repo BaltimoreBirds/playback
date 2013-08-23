@@ -80,7 +80,7 @@ def read_file(file)
 end
 
 def validate_file_name(file)
-  !file.include?(".txt")
+  File.exists?(file)
 end
 
 def say_nothing(string, console_output)
@@ -105,7 +105,7 @@ def say_file(string, console_output)
   # if string.downcase == console_output[:prepared]
     puts console_output[:filepath]
     file = get_file_path
-    while validate_file_name(file)
+    while !validate_file_name(file)
       puts console_output[:invalid_file]
       puts console_output[:filepath2]
       file = get_file_path

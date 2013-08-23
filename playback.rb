@@ -83,18 +83,26 @@ def validate_file_name(file)
   !file.include?(".txt")
 end
 
+def say_nothing(string, console_output)
+  array = []
+  # if string.downcase == console_output[:input_nothing]
+    array << console_output[:nothing]
+end
 
-def collect_playback(string, console_output)
-  echo = []
-  if string.downcase == console_output[:input_nothing]
-    echo << console_output[:nothing]
-  elsif string.downcase == console_output[:input_multiples]
+def say_multiple(string, console_output)
+  array = []
+  # if string.downcase == console_output[:input_multiples]
     puts console_output[:multiples]
     input_array = []
     collect_input(input_array, console_output)
     input_array.pop
-    echo << collect_responses(input_array, console_output)
-  elsif string.downcase == console_output[:prepared]
+    array << collect_responses(input_array, console_output)
+
+end
+
+def say_file(string, console_output)
+  array = []
+  # if string.downcase == console_output[:prepared]
     puts console_output[:filepath]
     file = get_file_path
     while validate_file_name(file)
@@ -103,16 +111,41 @@ def collect_playback(string, console_output)
       file = get_file_path
     end
     puts console_output[:reading] % file
-    echo << read_file(file)
-  else
-    array= make_spaceless_array(string)
-    hash=count_characters(array)
-    letter= find_second_largest(hash)
-    echo << console_output[:count] % letter
-    echo << console_output[:count2] % letter
-    echo << console_output[:first] + string
+    array << read_file(file)
+
+end
+
+def find_special_cases(console_output)
+  array = []
+  array << console_output[:input_nothing]
+  array << console_output[:prepared]
+  array << console_output[:input_multiples]
+end
+
+def say_one(string, console_output)
+  # if !find_special_cases(console_output).include?(string.downcase)
+    array = []
+    array_output = make_spaceless_array(string)
+    hash_output = count_characters(array_output)
+    letter_output = find_second_largest(hash_output)
+    array << console_output[:count] % letter_output
+    array << console_output[:count2] % letter_output
+    array << console_output[:first] + string
+end
+
+
+def collect_playback(string, console_output)
+  echo = []
+  case
+  when !find_special_cases(console_output).include?(string.downcase)
+    echo << say_one(string, console_output)
+  when string.downcase == console_output[:input_nothing]
+    echo << say_nothing(string, console_output)
+  when string.downcase == console_output[:input_multiples]
+    echo << say_multiple(string, console_output)
+  when string.downcase == console_output[:prepared]
+    echo << say_file(string, console_output)
   end
-  echo
 end
 
 

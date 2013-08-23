@@ -72,7 +72,7 @@ def find_second_largest(hash)
 end
 
 def get_file_path
-gets.chomp
+  gets.chomp
 end
 
 def read_file(file)
@@ -85,34 +85,29 @@ end
 
 def say_nothing(string, console_output)
   array = []
-  # if string.downcase == console_output[:input_nothing]
-    array << console_output[:nothing]
+  array << console_output[:nothing]
 end
 
 def say_multiple(string, console_output)
   array = []
-  # if string.downcase == console_output[:input_multiples]
-    puts console_output[:multiples]
-    input_array = []
-    collect_input(input_array, console_output)
-    input_array.pop
-    array << collect_responses(input_array, console_output)
-
+  puts console_output[:multiples]
+  input_array = []
+  collect_input(input_array, console_output)
+  input_array.pop
+  array << collect_responses(input_array, console_output)
 end
 
 def say_file(string, console_output)
   array = []
-  # if string.downcase == console_output[:prepared]
-    puts console_output[:filepath]
+  puts console_output[:filepath]
+  file = get_file_path
+  while !validate_file_name(file)
+    puts console_output[:invalid_file]
+    puts console_output[:filepath2]
     file = get_file_path
-    while !validate_file_name(file)
-      puts console_output[:invalid_file]
-      puts console_output[:filepath2]
-      file = get_file_path
-    end
-    puts console_output[:reading] % file
-    array << read_file(file)
-
+  end
+  puts console_output[:reading] % file
+  array << read_file(file)
 end
 
 def find_special_cases(console_output)
@@ -123,14 +118,13 @@ def find_special_cases(console_output)
 end
 
 def say_one(string, console_output)
-  # if !find_special_cases(console_output).include?(string.downcase)
-    array = []
-    array_output = make_spaceless_array(string)
-    hash_output = count_characters(array_output)
-    letter_output = find_second_largest(hash_output)
-    array << console_output[:count] % letter_output
-    array << console_output[:count2] % letter_output
-    array << console_output[:first] + string
+  array = []
+  array_output = make_spaceless_array(string)
+  hash_output = count_characters(array_output)
+  letter_output = find_second_largest(hash_output)
+  array << console_output[:count] % letter_output
+  array << console_output[:count2] % letter_output
+  array << console_output[:first] + string
 end
 
 
